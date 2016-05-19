@@ -1,0 +1,66 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h1{
+  font-size: 50px;
+  margin: 0;
+  text-align: center;
+}
+
+section {
+  margin: 0 auto;
+  width: 850px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 850px
+
+}
+
+table th{
+  width: 150px;
+}
+
+tr {
+  height: 50px;
+}
+
+th {
+  text-align: left;
+}
+
+th, td{
+  padding-left: 15px;
+
+}
+
+textarea {
+  resize: none;
+}
+
+.need {
+  padding-left: 5px;
+  font-size: small;
+  color: red;
+}
+
+.wrap {
+  background-color: white;
+  margin: 0 auto;
+  width: 1200px;
+}
+
+.question {
+  height: 150px;
+}
+
+.submit {
+  margin-top: 20px;
+  margin-left: 300px;
+  width: 180px;
+  height: 45px;
+  font-size: 20px;
+}
