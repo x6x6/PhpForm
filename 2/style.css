@@ -42,7 +42,7 @@ textarea {
   resize: none;
 }
 
-.need {
+.required {
   padding-left: 5px;
   font-size: small;
   color: red;
