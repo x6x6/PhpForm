@@ -40,6 +40,9 @@ function myhtmlspecialchars($string) {
             echo '<tr><th>電話番号</span></th>';
             echo '<td>'.$result['tel1'].'-'.$result['tel2'].'-'.$result['tel3'].'</td></tr>';
 
+            echo '<tr><th>メールアドレス</span></th>';
+            echo '<td>'.$result['email1'].'@'.$result['email2'];
+
             echo '<tr><th>住所</span></th>';
             if($result['address'] == ""){
                 echo '<td>未記入</td></tr>';
