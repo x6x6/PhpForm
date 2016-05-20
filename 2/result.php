@@ -2,6 +2,8 @@
 $result = myhtmlspecialchars($_POST);
 
 $category = array(1 => "企業について", 2 => "採用について", 3 => "ホームページについて", 4 => "その他");
+$gender = array(1 => "男", 2 => "女", 3 => "その他");
+$where = array(1 => "ネット", 2 => "新聞・雑誌", 3 => "友人・知り合い");
 
 function myhtmlspecialchars($string) {
     if (is_array($string)) {
@@ -38,8 +40,16 @@ function myhtmlspecialchars($string) {
             echo '<tr><th>電話番号</span></th>';
             echo '<td>'.$result['tel1'].'-'.$result['tel2'].'-'.$result['tel3'].'</td></tr>';
 
+            echo '<tr><th>メールアドレス</span></th>';
+            echo '<td>'.$result['email1'].'@'.$result['email2'];
+
             echo '<tr><th>住所</span></th>';
-            echo '<td>'.$result['address'].'</td></tr>';
+            if($result['address'] == ""){
+                echo '<td>未記入</td></tr>';
+            }else{
+                echo '<td>'.$result['address'].'</td></tr>';
+
+            }
 
             echo '<tr><th>どこで知ったか</span></th>';
             if(!isset($result['where'])){
@@ -47,8 +57,9 @@ function myhtmlspecialchars($string) {
             }else{
                 echo '<td>';
                 $output = "";
-                foreach($result['where'] as $value) {
-                    $output .= $value.' &amp ';
+                foreach($result['where'] as $key => $value) {
+                    $output .= $where[$value].' &amp ';
+                    // var_dump
                 }
                 echo trim(trim($output), "&amp");
                 echo '</tr>';
