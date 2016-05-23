@@ -12,12 +12,12 @@
                 <h1>お問い合わせフォーム</h1>
                 <form action="result.php" method="post" onsubmit="return check();">
                     <h2>お客様情報</h2>
-                    <table border="1">
+                    <table>
                         <tbody>
-                            <tr><th>姓<span class="required">[必須]</span></th><td><input type="text" class="input_text" name="name1" id="name1" placeholder="山田" autoforcus></td></tr>
-                            <tr><th>名<span class="required">[必須]</span></th><td><input type="text" class="input_text" name="name2" id="name2" placeholder="太郎"></td></tr>
+                            <tr><th>姓<span class="required">[必須]</span></th><td id="name1"><input type="text" class="input_text" name="name1" placeholder="山田"><span class="err"></span></td></tr>
+                            <tr><th>名<span class="required">[必須]</span></th><td id="name2"><input type="text" class="input_text" name="name2" placeholder="太郎"><span class="err"></span></td></tr>
                             <tr>
-                                <th>性別</th>
+                                <th>性別<span class="any">[任意]</span></th>
                                 <td>
                                     <label><input type="radio" name="gender" value="男" checked>男</label>
                                     <label><input type="radio" name="gender" value="女">女</label>
@@ -26,17 +26,18 @@
                             </tr>
                             <tr>
                                 <th>電話番号<span class="required">[必須]</span></th>
-                                <td>
-                                    <input class="input_text" type="text" name="tel1" id="tel1" placeholder="03"> ー <input class="input_text" type="text" name="tel2" id="tel2" placeholder="3286"> ー <input type="text" id="tel3" class="input_text" name="tel3" placeholder="4777">
+                                <td id="tel">
+                                    <input class="input_text" size="7" type="text" name="tel1" placeholder="03"> ー <input class="input_text" size="7" type="text" name="tel2" placeholder="3286"> ー <input type="text" class="input_text" size="7" name="tel3" placeholder="4777" >
+                                    <span class="err"></span>
                                 </td>
                             </tr>
                             <tr>
                                 <th>メールアドレス<span class="required">[必須]</span></th>
-                                <td><input type="text" name="email1" id="email1" class="input_text" placeholder="example"> &#064; <input type="text" name="email2" class="input_text" id="email2" placeholder="example.com"></td>
+                                <td id="email"><input type="text" name="email1"  class="input_text" placeholder="example"> &#064; <input type="text" name="email2" class="input_text" placeholder="example.com"><span class="err"></span></td>
                             </tr>
-                            <tr><th>住所</th><td><input class="input_text"　type="text" name="address" placeholder="東京都千代田区●●●1-1"></td></tr>
+                            <tr><th>住所<span class="any">[任意]</span></th><td><input type="text" class="input_text" size="49" name="address" placeholder="東京都千代田区●●●1-1"></td></tr>
                             <tr>
-                                <th>どこで知ったか</th>
+                                <th>どこで知ったか<span class="any">[任意]</span></th>
                                 <td>
                                     <label><input type="checkbox" name="where[]" value="1">ネット</label>
                                     <label><input type="checkbox" name="where[]" value="2">新聞・雑誌</label>
@@ -46,7 +47,7 @@
                         </tbody>
                     </table>
                     <h2>お問い合わせ内容</h2>
-                    <table border="1">
+                    <table>
                         <tbody>
                         <tr>
                             <th>カテゴリ</th>
@@ -59,10 +60,16 @@
                             </select>
                             </td>
                         </tr>
-                        <tr class="question"><th>内容<span class="required">[必須]</span></th><td><textarea name="text" id="text" rows="8" cols="60"></textarea></td></tr>
+                        <tr class="question">
+                            <th>内容<span class="required">[必須]</span></th>
+                            <td id="text"><textarea name="text"  rows="8" cols="60" placeholder="ここに内容を記入してください"></textarea><span class="err"></span></td></tr>
                         </tbody>
                     </table>
-                    <input class="submit" type="submit" value="送信">
+                    <div class="button">
+                        <input class="right" type="submit" value="送信">
+                        <input class="left" type="reset" value="リセット">
+                    </div>
+
                 </form>
             </section>
         </div>

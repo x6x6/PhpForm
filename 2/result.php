@@ -75,7 +75,7 @@ function myhtmlspecialchars($string) {
             echo '<td>'.$category[$result['num']].'</td></tr>';
 
             echo '<tr class="question"><th>お問い合わせ内容</th>';
-            echo '<td><textarea class="area "rows="8" cols="60" disabled>'.$result['text'].'</textarea></td></tr>';
+            echo '<td class="output">'.nl2br(htmlspecialchars($_POST['text'])).'</tr>';
             echo '</tbody>';
             echo '</table>';
             ?>
