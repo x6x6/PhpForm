@@ -1,19 +1,16 @@
 body {
-    background-color:  #384252;
+    background-color: #384252;
     font-family: "メイリオ";
     margin: 0;
     padding: 0;
     color: #F2F2F2;
-
 }
-
-h1{
+h1 {
     font-size: 50px;
     margin: 15px auto;
     padding-top: 20;
     width: 500px;
 }
-
 h2 {
     border-bottom: solid 3px #FFC107;
     padding-bottom: 1px;
@@ -21,45 +18,37 @@ h2 {
     margin-bottom: 20px;
     margin-top: 50px;
 }
-
 section {
     margin: 0 auto;
     width: 850px;
 }
-
 table {
     border-collapse: collapse;
     width: 850px;
 }
-
-table th{
+table th {
     width: 170px;
 }
-
 tr {
     height: 50px;
 }
-
 th {
     text-align: right;
 }
-
-
-th, td {
+th,
+td {
     padding: 0 10px;
     background-color: #384252;
     color: #F2F2F2;
 }
-
 label {
     padding-bottom: 10px;
 }
-
-
-input, textarea {
+input,
+textarea {
     border: 0;
     resize: none;
-    background-color:  #2e3745;
+    background-color: #2e3745;
     color: #F2F2F2;
     padding-left: 5px;
     /*角丸*/
@@ -67,49 +56,35 @@ input, textarea {
     -moz-border-radius: 5px;
     border-radius: 5px;
     /*影*/
-    -moz-box-shadow: inset 0 0 4px rgba(0,0,0,0.2);
+    -moz-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.2);
     -webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.2);
     box-shadow: inner 0 0 4px rgba(0, 0, 0, 0.2);
-    /*上部影*/
-    /*-moz-box-shadow: inset 1px 4px 9px -6px rgba(0,0,0,0.5);
-    -webkit-box-shadow: inset 1px 4px 9px -6px rgba(0, 0, 0, 0.5);
-    box-shadow: inset 1px 4px 9px -6px rgba(0,0,0,0.5);*/
 }
-
-.required {
-    padding-left: 5px;
-    /*font-size: small;*/
-    color: #F20D14;
-}
-
-.any {
-    padding-left: 5px;
-    /*font-size: small;*/
-    color: #FFC107;
-}
-
 .wrap {
-    /*background-color: #F5F5F5;*/
     margin: 0 auto;
     width: 1200px;
 }
-
+.required {
+    padding-left: 5px;
+    color: #F20D14;
+}
+.any {
+    padding-left: 5px;
+    color: #FFC107;
+}
 .question {
     height: 150px;
 }
-
 .question .err {
     position: relative;
     bottom: 45px;
 }
-
 .button {
     border-top: solid 2px #FFC107;
     margin: 20px auto;
     width: 850px;
     height: 50px;
 }
-
 .button .left {
     display: block;
     height: 50px;
@@ -119,7 +94,6 @@ input, textarea {
     margin-left: 200px;
     width: 150px;
 }
-
 .button .right {
     display: block;
     height: 50px;
@@ -129,28 +103,10 @@ input, textarea {
     margin-right: 205px;
     width: 150px;
 }
-
-.text {
-    width: 300px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.output {
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
 .input_text {
     height: 22px;
 }
-
-.area {
-    border: none;
-    background-color: white;
-}
-
 .err {
     padding-left: 20px;
-    color: red;
+    color: #F20D14;
 }

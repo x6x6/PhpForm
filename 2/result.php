@@ -16,16 +16,17 @@ function myhtmlspecialchars($string) {
 ?>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="style.css" charset="utf-8">
-        <title>送信結果</title>
-    </head>
-    <body>
-        <div class="wrap">
-            <section>
-            <h1>送信結果</h1>
 
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css" charset="utf-8">
+    <title>送信結果</title>
+</head>
+
+<body>
+    <div class="wrap">
+        <section>
+            <h1>送信結果</h1>
             <?php
             echo '<h2>お客様情報</h2>';
             echo '<table border="1">';
@@ -79,7 +80,9 @@ function myhtmlspecialchars($string) {
             echo '</tbody>';
             echo '</table>';
             ?>
-            </section>
-        </div>
-    </body>
+
+        </section>
+    </div>
+</body>
+
 </html>
