@@ -37,6 +37,7 @@ th {
 }
 th,
 td {
+    width: 650px;
     padding: 0 10px;
     background-color: #384252;
     color: #F2F2F2;
@@ -75,10 +76,12 @@ textarea {
 .question {
     height: 150px;
 }
+
 .question .err {
     position: relative;
     bottom: 45px;
 }
+
 .button {
     border-top: solid 2px #FFC107;
     margin: 20px auto;
@@ -110,4 +113,3 @@ textarea {
     padding-left: 20px;
     color: #F20D14;
 }
-W

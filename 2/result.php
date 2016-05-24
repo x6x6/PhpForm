@@ -35,7 +35,6 @@ fwrite($fp, "\n");
 fwrite($fp, "カテゴリ:".$category[$_POST['num']]."\n");
 fwrite($fp, "内容\n".$_POST['text']."\n");
 fwrite($fp, "\n");
-
 fclose($fp);
 
 function myhtmlspecialchars($string) {
@@ -95,7 +94,7 @@ function myhtmlspecialchars($string) {
                     // var_dump
                 }
                 echo trim(trim($output), "&amp");
-                echo '</tr>';
+                echo '</td></tr>';
             }
             echo '</tbody>';
             echo '</table>';
@@ -108,7 +107,7 @@ function myhtmlspecialchars($string) {
             echo '<td>'.$category[$result['num']].'</td></tr>';
 
             echo '<tr class="question"><th>お問い合わせ内容</th>';
-            echo '<td class="output">'.nl2br(htmlspecialchars($_POST['text'])).'</tr>';
+            echo '<td class="output">'.nl2br(htmlspecialchars($_POST['text'])).'</td></tr>';
             echo '</tbody>';
             echo '</table>';
             ?>

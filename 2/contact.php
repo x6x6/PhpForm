@@ -98,7 +98,7 @@
                         <tr class="question">
                             <th>内容<span class="required">[必須]</span></th>
                             <td id="text">
-                                <textarea name="text" rows="8" cols="60" placeholder="ここに内容を記入してください"></textarea><span class="err"></span>
+                                <textarea name="text" rows="8" cols="60" wrap="hard" placeholder="ここに内容を記入してください"></textarea><span class="err"></span>
                             </td>
                         </tr>
                     </tbody>
