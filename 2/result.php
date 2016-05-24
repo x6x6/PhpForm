@@ -1,9 +1,42 @@
 <?php
 $result = myhtmlspecialchars($_POST);
+date_default_timezone_set('Asia/Tokyo');
+// echo "<pre>";
+// var_dump($_POST);
+// echo "</pre>";
 
 $category = array(1 => "企業について", 2 => "採用について", 3 => "ホームページについて", 4 => "その他");
 $gender = array(1 => "男", 2 => "女", 3 => "その他");
 $where = array(1 => "ネット", 2 => "新聞・雑誌", 3 => "友人・知り合い");
+
+$fp = fopen("contact_log.txt", "a");
+fwrite($fp, date("Y/m/d H:i:s D", time())."\n");
+fwrite($fp, "名前:".$_POST['name1']." ".$_POST['name1']."\n");
+fwrite($fp, "性別:".$_POST['gender']."\n");
+fwrite($fp, "電話番号:".$_POST['tel1']."-".$_POST['tel2']."-".$_POST['tel3']."\n");
+fwrite($fp, "メールアドレス:".$_POST['email1']."@".$_POST['email2']."\n");
+if($_POST['address'] == ""){
+    fwrite($fp, "住所:".$_POST['addres']."\n");
+}else{
+    fwrite($fp, "住所:"."未記入"."\n");
+}
+
+fwrite($fp, "どこで知ったか:");
+if(!isset($_POST['where'])){
+    fwrite($fp, "選択なし");
+}else{
+    $output = "";
+    foreach($_POST['where'] as $key => $value) {
+        $output .= $where[$value].' & ';
+    }
+    fwrite($fp, trim(trim($output), "&"));
+}
+fwrite($fp, "\n");
+fwrite($fp, "カテゴリ:".$category[$_POST['num']]."\n");
+fwrite($fp, "内容\n".$_POST['text']."\n");
+fwrite($fp, "\n");
+
+fclose($fp);
 
 function myhtmlspecialchars($string) {
     if (is_array($string)) {
@@ -12,6 +45,9 @@ function myhtmlspecialchars($string) {
         return htmlspecialchars($string, ENT_QUOTES);
     }
 }
+
+
+
 
 ?>
 <!DOCTYPE html>
@@ -49,7 +85,6 @@ function myhtmlspecialchars($string) {
                 echo '<td>未記入</td></tr>';
             }else{
                 echo '<td>'.$result['address'].'</td></tr>';
-
             }
 
             echo '<tr><th>どこで知ったか</span></th>';
