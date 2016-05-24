@@ -11,7 +11,7 @@ $where = array(1 => "ネット", 2 => "新聞・雑誌", 3 => "友人・知り�
 
 $fp = fopen("contact_log.txt", "a");
 fwrite($fp, date("Y/m/d H:i:s D", time())."\n");
-fwrite($fp, "名前:".$_POST['name1']." ".$_POST['name1']."\n");
+fwrite($fp, "名前:".$_POST['name1']." ".$_POST['name2']."\n");
 fwrite($fp, "性別:".$_POST['gender']."\n");
 fwrite($fp, "電話番号:".$_POST['tel1']."-".$_POST['tel2']."-".$_POST['tel3']."\n");
 fwrite($fp, "メールアドレス:".$_POST['email1']."@".$_POST['email2']."\n");
@@ -45,9 +45,6 @@ function myhtmlspecialchars($string) {
         return htmlspecialchars($string, ENT_QUOTES);
     }
 }
-
-
-
 
 ?>
 <!DOCTYPE html>
