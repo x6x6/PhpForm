@@ -12,7 +12,7 @@
     <div class="wrap">
         <section>
             <h1>お問い合わせフォーム</h1>
-            <form action="result.php" method="post" onsubmit="return check();">
+            <form action="result.php" method="post" autocomplete="off" onsubmit="return check();">
                 <h2>お客様情報</h2>
                 <table>
                     <tbody>
