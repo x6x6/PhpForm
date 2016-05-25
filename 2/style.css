@@ -39,7 +39,7 @@ th,
 td {
     width: 650px;
     padding: 0 10px;
-    background-color: #384252;
+    /*background-color: #384252;*/
     color: #F2F2F2;
 }
 label {
@@ -88,6 +88,12 @@ textarea {
     width: 850px;
     height: 50px;
 }
+
+.button .left:hover, .right:hover {
+    background-color: #505B6D;
+    border: solid 1px #FFC107;
+}
+
 .button .left {
     display: block;
     height: 50px;

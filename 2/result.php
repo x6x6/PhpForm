@@ -1,50 +1,26 @@
 <?php
-$result = myhtmlspecialchars($_POST);
 date_default_timezone_set('Asia/Tokyo');
-// echo "<pre>";
-// var_dump($_POST);
-// echo "</pre>";
+$post_keys = array("name1", "name2", "gender", "tel1", "tel2", "tel3", "email1", "email2", "address", "where", "num", "text");
 
+//result.php直接URLされた場合はエラー
+if(count($_POST) < 11){ //formから送られてくる最低限のキーの数以下だったらエラー
+    echo "直接ここに来ないでください";
+    exit();
+}else{ //想定外のPOSTのキーが送られてきたらエラー コンソールとかから？
+    foreach ($_POST as $key => $value) {
+        if(array_search($key, $post_keys) === false){
+            echo "想定外のキーがあります！！！";
+            exit();
+        }
+    }
+}
+
+$result = myhtmlspecialchars($_POST);
 $category = array(1 => "企業について", 2 => "採用について", 3 => "ホームページについて", 4 => "その他");
 $gender = array(1 => "男", 2 => "女", 3 => "その他");
 $where = array(1 => "ネット", 2 => "新聞・雑誌", 3 => "友人・知り合い");
 
-$fp = fopen("contact_log.txt", "a");
-fwrite($fp, date("Y/m/d H:i:s D", time())."\n");
-fwrite($fp, "名前:".$_POST['name1']." ".$_POST['name2']."\n");
-fwrite($fp, "性別:".$_POST['gender']."\n");
-fwrite($fp, "電話番号:".$_POST['tel1']."-".$_POST['tel2']."-".$_POST['tel3']."\n");
-fwrite($fp, "メールアドレス:".$_POST['email1']."@".$_POST['email2']."\n");
-if($_POST['address'] == ""){
-    fwrite($fp, "住所:".$_POST['addres']."\n");
-}else{
-    fwrite($fp, "住所:"."未記入"."\n");
-}
-
-fwrite($fp, "どこで知ったか:");
-if(!isset($_POST['where'])){
-    fwrite($fp, "選択なし");
-}else{
-    $output = "";
-    foreach($_POST['where'] as $key => $value) {
-        $output .= $where[$value].' & ';
-    }
-    fwrite($fp, trim(trim($output), "&"));
-}
-fwrite($fp, "\n");
-fwrite($fp, "カテゴリ:".$category[$_POST['num']]."\n");
-fwrite($fp, "内容\n".$_POST['text']."\n");
-fwrite($fp, "\n");
-fclose($fp);
-
-function myhtmlspecialchars($string) {
-    if (is_array($string)) {
-        return array_map("myhtmlspecialchars", $string);
-    } else {
-        return htmlspecialchars($string, ENT_QUOTES);
-    }
-}
-
+log_output();
 ?>
 <!DOCTYPE html>
 <html>
@@ -65,23 +41,19 @@ function myhtmlspecialchars($string) {
             echo '<tbody>';
 
             echo '<tr><th>お名前</span></th>';
-            echo '<td>'.$result['name1'].' '.$result['name2'].'</td></tr>';
+            echo post_output("姓 or 名 が入力されていませんよお", $result['name1'], $result['name2']);
 
             echo '<tr><th>性別</span></th>';
-            echo '<td>'.$result['gender'].'</td></tr>';
+            echo post_output("性別が選択されていません", $result['gender']);
 
             echo '<tr><th>電話番号</span></th>';
-            echo '<td>'.$result['tel1'].'-'.$result['tel2'].'-'.$result['tel3'].'</td></tr>';
+            echo post_output("入力されていない欄があります", $result['tel1'], $result['tel2'], $result['tel3']);
 
             echo '<tr><th>メールアドレス</span></th>';
-            echo '<td>'.$result['email1'].'@'.$result['email2'];
+            echo str_replace(" ", "@", post_output("入力されていない欄があります", $result['email1'], $result['email2']));
 
             echo '<tr><th>住所</span></th>';
-            if($result['address'] == ""){
-                echo '<td>未記入</td></tr>';
-            }else{
-                echo '<td>'.$result['address'].'</td></tr>';
-            }
+            echo post_output("未記入", $result['address']);
 
             echo '<tr><th>どこで知ったか</span></th>';
             if(!isset($result['where'])){
@@ -107,7 +79,7 @@ function myhtmlspecialchars($string) {
             echo '<td>'.$category[$result['num']].'</td></tr>';
 
             echo '<tr class="question"><th>お問い合わせ内容</th>';
-            echo '<td class="output">'.nl2br(htmlspecialchars($_POST['text'])).'</td></tr>';
+            echo post_output("未記入", nl2br($result['text']));
             echo '</tbody>';
             echo '</table>';
             ?>
@@ -117,3 +89,70 @@ function myhtmlspecialchars($string) {
 </body>
 
 </html>
+
+<?php
+function myhtmlspecialchars($string) {
+    if (is_array($string)) {
+        return array_map("myhtmlspecialchars", $string);
+    } else {
+        return htmlspecialchars($string, ENT_QUOTES);
+    }
+}
+
+function post_output($msg, ...$post_data) {
+    //POSTデータを出力する
+    //$msg:未入力だった場合に表示するメッセージ
+    //$post_data:POSTされたデータ（引数分配列）
+    //return: htmlに出力できる文字列
+    if(count($post_data) == 1){ //引数が１つだったら
+        if($post_data[0] == ""){
+            return "<td>".$msg."</td></tr>";
+        }else{
+            return "<td>".$post_data[0]."</td></tr>";
+        }
+    }elseif(count($post_data) == 2){  //引数が２つだったら
+        if($post_data[0] == "" || $post_data[1] == ""){
+            return "<td>".$msg."</td></tr>";
+        }else{
+            return "<td>".$post_data[0]." ".$post_data[1]."</td></tr>";
+        }
+    }elseif(count($post_data) == 3){ //引数が3つだったら(ほぼ電話番号用)
+        if($post_data[0] == "" || $post_data[1] == "" || $post_data[2] == ""){
+            return "<td>".$msg."</td></tr>";
+        }else{
+            return "<td>".$post_data[0]."-".$post_data[1]."-".$post_data[2]."</td></tr>";
+        }
+    }
+}
+
+function log_output() {
+    global $where, $category;
+    $fp = fopen("contact_log.txt", "a");
+    fwrite($fp, date("Y/m/d H:i:s D", time())."\n");
+    fwrite($fp, "名前:".$_POST['name1']." ".$_POST['name2']."\n");
+    fwrite($fp, "性別:".$_POST['gender']."\n");
+    fwrite($fp, "電話番号:".$_POST['tel1']."-".$_POST['tel2']."-".$_POST['tel3']."\n");
+    fwrite($fp, "メールアドレス:".$_POST['email1']."@".$_POST['email2']."\n");
+    if($_POST['address'] == ""){
+        fwrite($fp, "住所:".$_POST['address']."\n");
+    }else{
+        fwrite($fp, "住所:"."未記入"."\n");
+    }
+
+    fwrite($fp, "どこで知ったか:");
+    if(!isset($_POST['where'])){
+        fwrite($fp, "選択なし");
+    }else{
+        $output = "";
+        foreach($_POST['where'] as $key => $value) {
+            $output .= $where[$value].' & ';
+        }
+        fwrite($fp, trim(trim($output), "&"));
+    }
+    fwrite($fp, "\n");
+    fwrite($fp, "カテゴリ:".$category[$_POST['num']]."\n");
+    fwrite($fp, "内容\n".$_POST['text']."\n");
+    fwrite($fp, "\n");
+fclose($fp);
+}
+?>
