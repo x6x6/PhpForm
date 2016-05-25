@@ -47,7 +47,11 @@ log_output();
             echo post_output("性別が選択されていません", $result['gender']);
 
             echo '<tr><th>電話番号</span></th>';
-            echo post_output("入力されていない欄があります", $result['tel1'], $result['tel2'], $result['tel3']);
+            if(ctype_digit($result['tel1']) && ctype_digit($result['tel2']) && ctype_digit($result['tel3'])){
+                echo post_output("すべて数字で入力してください", $result['tel1'], $result['tel2'], $result['tel3']);
+            }else{
+                echo post_output("すべて数字で入力してください");
+            }
 
             echo '<tr><th>メールアドレス</span></th>';
             echo str_replace(" ", "@", post_output("入力されていない欄があります", $result['email1'], $result['email2']));
@@ -63,7 +67,6 @@ log_output();
                 $output = "";
                 foreach($result['where'] as $key => $value) {
                     $output .= $where[$value].' &amp ';
-                    // var_dump
                 }
                 echo trim(trim($output), "&amp");
                 echo '</td></tr>';
@@ -122,6 +125,8 @@ function post_output($msg, ...$post_data) {
         }else{
             return "<td>".$post_data[0]."-".$post_data[1]."-".$post_data[2]."</td></tr>";
         }
+    }else{
+        return "<td>".$msg."</td></tr>";
     }
 }
 
@@ -153,6 +158,6 @@ function log_output() {
     fwrite($fp, "カテゴリ:".$category[$_POST['num']]."\n");
     fwrite($fp, "内容\n".$_POST['text']."\n");
     fwrite($fp, "\n");
-fclose($fp);
+    fclose($fp);
 }
 ?>
