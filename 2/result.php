@@ -1,13 +1,15 @@
 <?php
+session_start();
+
+// var_dump($_SESSION);
 date_default_timezone_set('Asia/Tokyo');
 $post_keys = array("name1", "name2", "gender", "tel1", "tel2", "tel3", "email1", "email2", "address", "where", "num", "text");
-
 //result.php直接URLされた場合はエラー
-if(count($_POST) < 11){ //formから送られてくる最低限のキーの数以下だったらエラー
+if(count($_SESSION) < 10){
     echo "直接ここに来ないでください";
     exit();
-}else{ //想定外のPOSTのキーが送られてきたらエラー コンソールとかから？
-    foreach ($_POST as $key => $value) {
+}else{ //想定外のsessionのキーが送られてきたらエラー コンソールとかから？
+    foreach ($_SESSION as $key => $value) {
         if(array_search($key, $post_keys) === false){
             echo "想定外のキーがあります！！！";
             exit();
@@ -15,7 +17,7 @@ if(count($_POST) < 11){ //formから送られてくる最低限のキーの数�
     }
 }
 
-$result = myhtmlspecialchars($_POST);
+$result = myhtmlspecialchars($_SESSION);
 $category = array(1 => "企業について", 2 => "採用について", 3 => "ホームページについて", 4 => "その他");
 $gender = array(1 => "男", 2 => "女", 3 => "その他");
 $where = array(1 => "ネット", 2 => "新聞・雑誌", 3 => "友人・知り合い");
@@ -102,28 +104,28 @@ function myhtmlspecialchars($string) {
     }
 }
 
-function post_output($msg, ...$post_data) {
+function post_output($msg, ...$session_data) {
     //POSTデータを出力する
     //$msg:未入力だった場合に表示するメッセージ
-    //$post_data:POSTされたデータ（引数分配列）
+    //$session_data:データ（引数分配列）
     //return: htmlに出力できる文字列
-    if(count($post_data) == 1){ //引数が１つだったら
-        if($post_data[0] == ""){
+    if(count($session_data) == 1){ //引数が１つだったら
+        if($session_data[0] == ""){
             return "<td>".$msg."</td></tr>";
         }else{
-            return "<td>".$post_data[0]."</td></tr>";
+            return "<td>".$session_data[0]."</td></tr>";
         }
-    }elseif(count($post_data) == 2){  //引数が２つだったら
-        if($post_data[0] == "" || $post_data[1] == ""){
+    }elseif(count($session_data) == 2){  //引数が２つだったら
+        if($session_data[0] == "" || $session_data[1] == ""){
             return "<td>".$msg."</td></tr>";
         }else{
-            return "<td>".$post_data[0]." ".$post_data[1]."</td></tr>";
+            return "<td>".$session_data[0]." ".$session_data[1]."</td></tr>";
         }
-    }elseif(count($post_data) == 3){ //引数が3つだったら(ほぼ電話番号用)
-        if($post_data[0] == "" || $post_data[1] == "" || $post_data[2] == ""){
+    }elseif(count($session_data) == 3){ //引数が3つだったら(ほぼ電話番号用)
+        if($session_data[0] == "" || $session_data[1] == "" || $session_data[2] == ""){
             return "<td>".$msg."</td></tr>";
         }else{
-            return "<td>".$post_data[0]."-".$post_data[1]."-".$post_data[2]."</td></tr>";
+            return "<td>".$session_data[0]."-".$session_data[1]."-".$session_data[2]."</td></tr>";
         }
     }else{
         return "<td>".$msg."</td></tr>";
@@ -134,30 +136,32 @@ function log_output() {
     global $where, $category;
     $fp = fopen("contact_log.txt", "a");
     fwrite($fp, date("Y/m/d H:i:s D", time())."\n");
-    fwrite($fp, "名前:".$_POST['name1']." ".$_POST['name2']."\n");
-    fwrite($fp, "性別:".$_POST['gender']."\n");
-    fwrite($fp, "電話番号:".$_POST['tel1']."-".$_POST['tel2']."-".$_POST['tel3']."\n");
-    fwrite($fp, "メールアドレス:".$_POST['email1']."@".$_POST['email2']."\n");
-    if($_POST['address'] == ""){
-        fwrite($fp, "住所:".$_POST['address']."\n");
+    fwrite($fp, "名前:".$_SESSION['name1']." ".$_SESSION['name2']."\n");
+    fwrite($fp, "性別:".$_SESSION['gender']."\n");
+    fwrite($fp, "電話番号:".$_SESSION['tel1']."-".$_SESSION['tel2']."-".$_SESSION['tel3']."\n");
+    fwrite($fp, "メールアドレス:".$_SESSION['email1']."@".$_SESSION['email2']."\n");
+    if($_SESSION['address'] == ""){
+        fwrite($fp, "住所:".$_SESSION['address']."\n");
     }else{
         fwrite($fp, "住所:"."未記入"."\n");
     }
 
     fwrite($fp, "どこで知ったか:");
-    if(!isset($_POST['where'])){
+    if(!isset($_SESSION['where'])){
         fwrite($fp, "選択なし");
     }else{
         $output = "";
-        foreach($_POST['where'] as $key => $value) {
+        foreach($_SESSION['where'] as $key => $value) {
             $output .= $where[$value].' & ';
         }
         fwrite($fp, trim(trim($output), "&"));
     }
     fwrite($fp, "\n");
-    fwrite($fp, "カテゴリ:".$category[$_POST['num']]."\n");
-    fwrite($fp, "内容\n".$_POST['text']."\n");
+    fwrite($fp, "カテゴリ:".$category[$_SESSION['num']]."\n");
+    fwrite($fp, "内容\n".$_SESSION['text']."\n");
     fwrite($fp, "\n");
     fclose($fp);
 }
+$_SESSION = array();
+session_destroy();
 ?>
