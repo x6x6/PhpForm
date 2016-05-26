@@ -63,7 +63,7 @@ function err_output($key, $msg){
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="style.css" charset="utf-8">
-    <script type="text/javascript" src="check.js"></script>
+    <!-- <script type="text/javascript" src="check.js"></script> -->
     <title>お問い合わせフォーム</title>
 </head>
 

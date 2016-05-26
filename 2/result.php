@@ -43,7 +43,7 @@ log_output();
             echo '<tbody>';
 
             echo '<tr><th>お名前</span></th>';
-            echo post_output("姓 or 名 が入力されていませんよお", $result['name1'], $result['name2']);
+            echo post_output("姓 or 名 が入力されていませんよ", $result['name1'], $result['name2']);
 
             echo '<tr><th>性別</span></th>';
             echo post_output("性別が選択されていません", $result['gender']);
@@ -163,5 +163,5 @@ function log_output() {
     fclose($fp);
 }
 $_SESSION = array();
-session_destroy();
+session_destroy()
 ?>
