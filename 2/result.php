@@ -3,14 +3,14 @@ session_start();
 
 // var_dump($_SESSION);
 date_default_timezone_set('Asia/Tokyo');
-$post_keys = array("name1", "name2", "gender", "tel1", "tel2", "tel3", "email1", "email2", "address", "where", "num", "text");
+$session_keys = array("name1", "name2", "gender", "tel1", "tel2", "tel3", "email1", "email2", "address", "where", "num", "text");
 //result.php直接URLされた場合はエラー
 if(count($_SESSION) < 10){
     echo "直接ここに来ないでください";
     exit();
 }else{ //想定外のsessionのキーが送られてきたらエラー コンソールとかから？
     foreach ($_SESSION as $key => $value) {
-        if(array_search($key, $post_keys) === false){
+        if(array_search($key, $session_keys) === false){
             echo "想定外のキーがあります！！！";
             exit();
         }
@@ -43,23 +43,23 @@ log_output();
             echo '<tbody>';
 
             echo '<tr><th>お名前</span></th>';
-            echo post_output("姓 or 名 が入力されていませんよ", $result['name1'], $result['name2']);
+            echo session_output("姓 or 名 が入力されていませんよ", $result['name1'], $result['name2']);
 
             echo '<tr><th>性別</span></th>';
-            echo post_output("性別が選択されていません", $result['gender']);
+            echo session_output("性別が選択されていません", $result['gender']);
 
             echo '<tr><th>電話番号</span></th>';
             if(ctype_digit($result['tel1']) && ctype_digit($result['tel2']) && ctype_digit($result['tel3'])){
-                echo post_output("すべて数字で入力してください", $result['tel1'], $result['tel2'], $result['tel3']);
+                echo session_output("すべて数字で入力してください", $result['tel1'], $result['tel2'], $result['tel3']);
             }else{
-                echo post_output("すべて数字で入力してください");
+                echo session_output("すべて数字で入力してください");
             }
 
             echo '<tr><th>メールアドレス</span></th>';
-            echo str_replace(" ", "@", post_output("入力されていない欄があります", $result['email1'], $result['email2']));
+            echo str_replace(" ", "@", session_output("入力されていない欄があります", $result['email1'], $result['email2']));
 
             echo '<tr><th>住所</span></th>';
-            echo post_output("未記入", $result['address']);
+            echo session_output("未記入", $result['address']);
 
             echo '<tr><th>どこで知ったか</span></th>';
             if(!isset($result['where'])){
@@ -84,7 +84,7 @@ log_output();
             echo '<td>'.$category[$result['num']].'</td></tr>';
 
             echo '<tr class="question"><th>お問い合わせ内容</th>';
-            echo post_output("未記入", nl2br($result['text']));
+            echo session_output("未記入", nl2br($result['text']));
             echo '</tbody>';
             echo '</table>';
             ?>
@@ -104,7 +104,7 @@ function myhtmlspecialchars($string) {
     }
 }
 
-function post_output($msg, ...$session_data) {
+function session_output($msg, ...$session_data) {
     //POSTデータを出力する
     //$msg:未入力だった場合に表示するメッセージ
     //$session_data:データ（引数分配列）
