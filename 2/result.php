@@ -52,8 +52,8 @@ log_output();
             echo str_replace(" ", "@", session_output("メールアドレス", "入力されていない欄があります", $result['email1'], $result['email2']));
             echo session_output("住所", "未記入", $result['address']);
 
+            echo '<tr><th>どこで知ったか</th>';
             if(!isset($result['where'])){
-                echo '<tr><th>どこで知ったか</th>';
                 echo '<td>選択なし</td></tr>';
             }else{
                 echo '<td>';
@@ -157,6 +157,6 @@ function log_output() {
     fwrite($fp, "\n");
     fclose($fp);
 }
-$_SESSION = array();
-session_destroy()
+// $_SESSION = array();
+// session_destroy()
 ?>

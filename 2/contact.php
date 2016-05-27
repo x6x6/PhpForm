@@ -1,31 +1,47 @@
 <?php
 session_start();
-$flag_array = array("name1" => 1, "name2" => 1, "tel" => 1, "email" => 1,"text" => 1);
+
+$msg_array = array("name1" => "", "name2" => "", "tel" => "", "email" => "" ,"text" => "");
+$err_msg = array("未入力です", "半角数字のみで入力してください", "形式が違います");
 $flag = 1;
+// var_dump($_POST);
 if(count($_POST) != 0){
+    //バリデーション
     if($_POST['name1'] == ""){
-        $flag_array['name1'] = 0;
+        $msg_array['name1'] = $err_msg[0];
         $flag = 0;
     }
+
     if($_POST['name2'] == ""){
-        $flag_array['name2'] = 0;
+        $msg_array['name2'] = $err_msg[0];
         $flag = 0;
     }
+
     if($_POST['tel1'] == "" || $_POST['tel2'] == "" || $_POST['tel3'] == ""){
-        $flag_array["tel"] = 0;
+        $msg_array["tel"] = $err_msg[0];
+        del_post_val("tel1", "tel2", "tel3");
         $flag = 0;
     }elseif(!is_numeric($_POST['tel1']) || !is_numeric($_POST['tel2']) || !is_numeric($_POST['tel3'])){
-        $flag_array["tel"] = 3;
+        $msg_array["tel"] = $err_msg[1];
+        del_post_val("tel1", "tel2", "tel3");
         $flag = 0;
     }
+
     if($_POST['email1'] == "" || $_POST['email2'] == ""){
-        $flag_array['email'] = 0;
+        $msg_array['email'] = $err_msg[0];
+        del_post_val("email1", "email2");
+        $flag = 0;
+    }elseif(preg_match('/^[a-z]+\.[a-z]+$/', $_POST['email2']) === 0){
+        $msg_array['email'] = $err_msg[2];
+        del_post_val("email1", "email2");
         $flag = 0;
     }
+
     if($_POST['text'] == ""){
-        $flag_array['text'] = 0;
+        $msg_array['text'] = $err_msg[0];
         $flag = 0;
     }
+
     if($flag != 0){
         $_SESSION['name1'] = $_POST['name1'];
         $_SESSION['name2'] = $_POST['name2'];
@@ -49,11 +65,24 @@ if(count($_POST) != 0){
     }
 }
 
-function err_output($key, $msg){
-    if($key == 0){
+function err_output($msg){
+    if($msg != ""){
         return $msg;
-    }elseif($key == 3){
-        return "半角数字のみ入力してください";
+    }
+}
+//POST後のフォームの初期値設定
+function init_value($key){
+    if(isset($_POST[$key])){
+        if($_POST[$key] != ""){
+            return $_POST[$key];
+        }
+    }
+}
+
+//ポストの値を消す
+function del_post_val(...$keys){
+    foreach ($keys as $value) {
+        $_POST[$value] = "";
     }
 }
 ?>
@@ -79,9 +108,9 @@ function err_output($key, $msg){
                             <th>姓<span class="required">[必須]</span>
                             </th>
                             <td id="name1">
-                                <input type="text" class="input_text" name="name1" placeholder="山田">
                                 <?php
-                                echo "<span class='err'>".err_output($flag_array['name1'], "未入力です")."</span>";
+                                echo "<input type='text' class='input_text' name='name1' placeholder='山田' value='".init_value("name1")."'>";
+                                echo "<span class='err'>".err_output($msg_array['name1'])."</span>";
                                 ?>
                             </td>
                         </tr>
@@ -89,9 +118,9 @@ function err_output($key, $msg){
                             <th>名<span class="required">[必須]</span>
                             </th>
                             <td id="name2">
-                                <input type="text" class="input_text" name="name2" placeholder="太郎">
                                 <?php
-                                echo "<span class='err'>".err_output($flag_array['name2'], "未入力です")."</span>";
+                                echo "<input type='text' class='input_text' name='name2' placeholder='太郎' value='".init_value("name2")."'>";
+                                echo "<span class='err'>".err_output($msg_array['name2'], "未入力です")."</span>";
                                 ?>
                             </td>
                         </tr>
@@ -111,11 +140,11 @@ function err_output($key, $msg){
                             <th>電話番号<span class="required">[必須]</span>
                             </th>
                             <td id="tel">
-                                <input class="input_text" size="7" type="text" name="tel1" placeholder="03"> ー
-                                <input class="input_text" size="7" type="text" name="tel2" placeholder="3286"> ー
-                                <input type="text" class="input_text" size="7" name="tel3" placeholder="4777">
                                 <?php
-                                echo "<span class='err'>".err_output($flag_array['tel'], "すべて入力してください")."</span>";
+                                echo '<input class="input_text" size="7" type="text" name="tel1" placeholder="03" value="'.init_value("tel1").'"> ー';
+                                echo '<input class="input_text" size="7" type="text" name="tel2" placeholder="3286" value="'.init_value("tel2").'"> ー';
+                                echo '<input type="text" class="input_text" size="7" name="tel3" placeholder="4777" value="'.init_value("tel3").'">';
+                                echo "<span class='err'>".err_output($msg_array['tel'], "すべて入力してください")."</span>";
                                 ?>
                             </td>
                         </tr>
@@ -123,10 +152,10 @@ function err_output($key, $msg){
                             <th>メールアドレス<span class="required">[必須]</span>
                             </th>
                             <td id="email">
-                                <input type="text" name="email1" class="input_text" placeholder="example"> &#064;
-                                <input type="text" name="email2" class="input_text" placeholder="example.com">
                                 <?php
-                                echo "<span class='err'>".err_output($flag_array['email'], "すべて入力してください")."</span>";
+                                echo '<input type="text" name="email1" class="input_text" placeholder="example" value="'.init_value("email1").'"> &#064';
+                                echo '<input type="text" name="email2" class="input_text" placeholder="example.com" value="'.init_value("email2").'">';
+                                echo "<span class='err'>".err_output($msg_array['email'], "すべて入力してください")."</span>";
                                 ?>
                             </td>
                         </tr>
@@ -134,7 +163,9 @@ function err_output($key, $msg){
                             <th>住所<span class="any">[任意]</span>
                             </th>
                             <td>
-                                <input type="text" class="input_text" size="49" name="address" placeholder="東京都千代田区●●●1-1">
+                                <?php
+                                echo '<input type="text" class="input_text" size="49" name="address" placeholder="東京都千代田区●●●1-1" value="'.init_value("address").'">';
+                                 ?>
                             </td>
                         </tr>
                         <tr>
@@ -168,9 +199,9 @@ function err_output($key, $msg){
                         <tr class="question">
                             <th>内容<span class="required">[必須]</span></th>
                             <td id="text">
-                                <textarea name="text" rows="8" cols="60" wrap="hard" placeholder="ここに内容を記入してください"></textarea>
                                 <?php
-                                echo "<span class='err'>".err_output($flag_array['text'], "未入力です")."</span>";
+                                echo '<textarea name="text" rows="8" cols="60" wrap="hard" placeholder="ここに内容を記入してください">'.init_value("text").'</textarea>';
+                                echo "<span class='err'>".err_output($msg_array['text'])."</span>";
                                 ?>
                             </td>
                         </tr>
