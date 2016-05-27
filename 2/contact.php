@@ -4,7 +4,11 @@ session_start();
 $msg_array = array("name1" => "", "name2" => "", "tel" => "", "email" => "" ,"text" => "");
 $err_msg = array("未入力です", "半角数字のみで入力してください", "形式が違います");
 $flag = 1;
-// var_dump($_POST);
+if(isset($_POST['reset'])){
+    $_POST = array();
+}
+
+
 if(count($_POST) != 0){
     //バリデーション
     if($_POST['name1'] == ""){
@@ -209,7 +213,7 @@ function del_post_val(...$keys){
                 </table>
                 <div class="button">
                     <input class="right" type="submit" value="送信">
-                    <input class="left" type="reset" value="リセット">
+                    <input class="left" name="reset" type="submit" value="リセット">
                 </div>
 
             </form>

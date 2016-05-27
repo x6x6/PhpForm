@@ -157,6 +157,6 @@ function log_output() {
     fwrite($fp, "\n");
     fclose($fp);
 }
-// $_SESSION = array();
-// session_destroy()
+$_SESSION = array();
+session_destroy()
 ?>
