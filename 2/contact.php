@@ -35,7 +35,7 @@ if(count($_POST) != 0){
         $msg_array['email'] = $err_msg[0];
         del_post_val("email1", "email2");
         $flag = 0;
-    }elseif(preg_match('/^[a-z]+\.[a-z]+$/', $_POST['email2']) === 0){
+    }elseif(preg_match('/^[a-z]+\.[a-z]+\.*[a-z]*$/', $_POST['email2']) === 0){
         $msg_array['email'] = $err_msg[2];
         del_post_val("email1", "email2");
         $flag = 0;
