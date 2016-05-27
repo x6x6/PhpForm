@@ -42,26 +42,26 @@ log_output();
             echo '<table border="1">';
             echo '<tbody>';
 
-            echo '<tr><th>お名前</span></th>';
+            echo '<tr><th>お名前</th>';
             echo session_output("姓 or 名 が入力されていませんよ", $result['name1'], $result['name2']);
 
-            echo '<tr><th>性別</span></th>';
+            echo '<tr><th>性別</th>';
             echo session_output("性別が選択されていません", $result['gender']);
 
-            echo '<tr><th>電話番号</span></th>';
+            echo '<tr><th>電話番号</th>';
             if(ctype_digit($result['tel1']) && ctype_digit($result['tel2']) && ctype_digit($result['tel3'])){
                 echo session_output("すべて数字で入力してください", $result['tel1'], $result['tel2'], $result['tel3']);
             }else{
                 echo session_output("すべて数字で入力してください");
             }
 
-            echo '<tr><th>メールアドレス</span></th>';
+            echo '<tr><th>メールアドレス</th>';
             echo str_replace(" ", "@", session_output("入力されていない欄があります", $result['email1'], $result['email2']));
 
-            echo '<tr><th>住所</span></th>';
+            echo '<tr><th>住所</th>';
             echo session_output("未記入", $result['address']);
 
-            echo '<tr><th>どこで知ったか</span></th>';
+            echo '<tr><th>どこで知ったか</th>';
             if(!isset($result['where'])){
                 echo '<td>選択なし</td></tr>';
             }else{
